@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Sunday</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+font-family:Poppins,sans-serif;
+background:linear-gradient(180deg,#0A2647,#144272,#205295);
+color:white;
+min-height:100vh;
+overflow-x:hidden;
+}
+.page{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px}
+.card{
+width:min(90%,800px);
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(10px);
+padding:30px;
+border-radius:24px;
+}
+h1,h2{text-align:center}
+p{line-height:1.8}
+.question{margin:20px 0}
+label{display:block;margin:8px 0;padding:10px;border-radius:12px;background:rgba(255,255,255,.05)}
+button{
+margin-top:20px;padding:12px 24px;border:none;border-radius:999px;
+cursor:pointer;background:#A5D7E8;color:#0A2647;font-weight:600;
+}
+#letter-page,#heart-page{display:none}
+img{
+max-width:320px;width:100%;border-radius:24px;display:block;margin:0 auto 20px auto;
+}
+.small{opacity:.8;text-align:center}
+.star{
+position:fixed;color:white;opacity:.25;
+animation:float 12s linear infinite;
+}
+@keyframes float{
+from{transform:translateY(100vh)}
+to{transform:translateY(-120vh)}
+}
+a.music{color:white}
+</style>
+</head>
+<body>
+
+<div id="quiz-page" class="page">
+<div class="card">
+<h1>Wait.</h1>
+<p class="small">Before you continue...</p>
+<h2 style="margin-top:10px">Are you really Sunday?</h2>
+<p class="small">Let's find out.</p>
+
+<div class="question">
+<p><b>What's my first nickname for you?</b></p>
+<label><input type="radio" name="q1"> Potato Puff</label>
+<label><input type="radio" name="q1"> Sunday</label>
+<label><input type="radio" name="q1" value="correct"> Biri-biri kecil</label>
+<label><input type="radio" name="q1"> Honeybun</label>
+</div>
+
+<div class="question">
+<p><b>What's your favorite food?</b></p>
+<label><input type="radio" name="q2"> Pizza</label>
+<label><input type="radio" name="q2"> Ramen</label>
+<label><input type="radio" name="q2" value="correct"> Ubi Madu / Ubi Cilembu</label>
+<label><input type="radio" name="q2"> Fried Rice</label>
+</div>
+
+<div class="question">
+<p><b>Who's your favorite person?</b></p>
+<label><input type="radio" name="q3"> Your favorite character</label>
+<label><input type="radio" name="q3"> Your pet</label>
+<label><input type="radio" name="q3" value="correct"> Me</label>
+<label><input type="radio" name="q3"> Yourself</label>
+</div>
+
+<div class="question">
+<p><b>Where did we first meet?</b></p>
+<label><input type="radio" name="q4"> Roblox</label>
+<label><input type="radio" name="q4"> Instagram</label>
+<label><input type="radio" name="q4"> School</label>
+<label><input type="radio" name="q4" value="correct"> TikTok comments section</label>
+</div>
+
+<button onclick="checkAnswers()">Continue</button>
+</div>
+</div>
+
+<div id="letter-page" class="page">
+<div class="card">
+<img src="ChatGPT Image 6 Jun 2026, 16.20.41.png" alt="photo">
+<h2>For Sunday</h2>
+<p style="margin-top:20px">
+PASTE SURAT KAMU DI SINI.<br><br>
+Ganti seluruh paragraf ini dengan surat yang sudah kamu siapkan.
+</p>
+<div style="text-align:center">
+<button onclick="showHeartPage()">Continue</button>
+</div>
+</div>
+</div>
+
+<div id="heart-page" class="page">
+<div class="card" style="text-align:center">
+<h1>my heart</h1>
+<h1>is only for u.</h1>
+<br>
+<p>and if i had to choose again,<br>i'd still find my way back to you.</p>
+<br>
+<p>thank you for existing, Sunday.</p>
+<br>
+<a class="music" target="_blank" href="https://youtu.be/Q49pnA4jsp8?si=_nbjbBI0ufuMjVTo">♫ love — wave to earth</a>
+</div>
+</div>
+
+<script>
+function checkAnswers(){
+const ok =
+document.querySelector('input[name="q1"]:checked')?.value==="correct" &&
+document.querySelector('input[name="q2"]:checked')?.value==="correct" &&
+document.querySelector('input[name="q3"]:checked')?.value==="correct" &&
+document.querySelector('input[name="q4"]:checked')?.value==="correct";
+
+if(ok){
+alert("Identity confirmed. Welcome, Sunday :3");
+document.getElementById("quiz-page").style.display="none";
+document.getElementById("letter-page").style.display="flex";
+}else{
+alert("Access denied. You're suspiciously not Sunday.");
+}
+}
+function showHeartPage(){
+document.getElementById("letter-page").style.display="none";
+document.getElementById("heart-page").style.display="flex";
+}
+for(let i=0;i<25;i++){
+const s=document.createElement('div');
+s.className='star';
+s.innerHTML='✦';
+s.style.left=Math.random()*100+'vw';
+s.style.animationDelay=(Math.random()*12)+'s';
+document.body.appendChild(s);
+}
+</script>
+</body>
+</html>
