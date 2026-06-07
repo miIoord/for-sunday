@@ -4,150 +4,758 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>For Sunday</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-*{margin:0;padding:0;box-sizing:border-box}
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html{
+    scroll-behavior:smooth;
+}
+
 body{
-font-family:Poppins,sans-serif;
-background:linear-gradient(180deg,#0A2647,#144272,#205295);
-color:white;
-min-height:100vh;
-overflow-x:hidden;
+    font-family:'Poppins',sans-serif;
+    background:linear-gradient(
+        180deg,
+        #071a2d 0%,
+        #0A2647 30%,
+        #144272 70%,
+        #205295 100%
+    );
+    color:white;
+    overflow-x:hidden;
 }
-.page{min-height:100vh;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:30px}
+
+.page{
+    min-height:100vh;
+    display:none;
+    justify-content:center;
+    align-items:center;
+    padding:30px;
+    position:relative;
+}
+
+.active{
+    display:flex;
+}
+
 .card{
-width:min(90%,800px);
-background:rgba(255,255,255,.08);
-backdrop-filter:blur(10px);
-padding:30px;
-border-radius:24px;
+    width:min(900px,95%);
+    background:rgba(255,255,255,0.08);
+    backdrop-filter:blur(15px);
+    border:1px solid rgba(255,255,255,0.1);
+    border-radius:28px;
+    padding:35px;
+    box-shadow:0 10px 40px rgba(0,0,0,0.25);
 }
-h1,h2{text-align:center}
-p{line-height:1.8}
-.question{margin:20px 0}
-label{display:block;margin:8px 0;padding:10px;border-radius:12px;background:rgba(255,255,255,.05)}
+
+.center{
+    text-align:center;
+}
+
+h1{
+    font-size:3rem;
+    font-weight:700;
+}
+
+h2{
+    font-size:2rem;
+    margin-bottom:10px;
+}
+
+p{
+    line-height:1.8;
+}
+
 button{
-margin-top:20px;padding:12px 24px;border:none;border-radius:999px;
-cursor:pointer;background:#A5D7E8;color:#0A2647;font-weight:600;
+    border:none;
+    cursor:pointer;
+    padding:14px 26px;
+    border-radius:999px;
+    background:#A5D7E8;
+    color:#0A2647;
+    font-weight:700;
+    margin-top:20px;
+    transition:.3s;
 }
-#letter-page,#heart-page{display:none}
-img{
-max-width:320px;width:100%;border-radius:24px;display:block;margin:0 auto 20px auto;
+
+button:hover{
+    transform:translateY(-2px);
 }
-.small{opacity:.8;text-align:center}
-.star{
-position:fixed;color:white;opacity:.25;
-animation:float 12s linear infinite;
+
+.option{
+    display:block;
+    margin-top:12px;
+    padding:14px;
+    border-radius:14px;
+    background:rgba(255,255,255,0.06);
+    transition:.3s;
 }
-@keyframes float{
-from{transform:translateY(100vh)}
-to{transform:translateY(-120vh)}
+
+.option:hover{
+    background:rgba(255,255,255,0.12);
 }
-a.music{color:white}
+
+.option input{
+    margin-right:10px;
+}
+
+.fade{
+    animation:fadeIn .8s ease;
+}
+
+@keyframes fadeIn{
+    from{
+        opacity:0;
+        transform:translateY(20px);
+    }
+    to{
+        opacity:1;
+        transform:translateY(0);
+    }
+}
+
+/* ocean particles */
+
+.particle{
+    position:fixed;
+    color:white;
+    opacity:.15;
+    pointer-events:none;
+    animation:floatUp linear infinite;
+}
+
+@keyframes floatUp{
+    from{
+        transform:translateY(110vh);
+    }
+    to{
+        transform:translateY(-120vh);
+    }
+}
+
+/* typing */
+
+.typing{
+    overflow:hidden;
+    white-space:nowrap;
+    border-right:2px solid rgba(255,255,255,.8);
+    width:0;
+    animation:
+    typing 3s steps(40,end) forwards,
+    blink .8s infinite;
+}
+
+@keyframes typing{
+    from{width:0}
+    to{width:100%}
+}
+
+@keyframes blink{
+    50%{
+        border-color:transparent;
+    }
+}
+
+.music-btn{
+    position:fixed;
+    top:20px;
+    right:20px;
+    text-decoration:none;
+    color:white;
+    background:rgba(255,255,255,.08);
+    backdrop-filter:blur(10px);
+    padding:10px 16px;
+    border-radius:999px;
+    font-size:.9rem;
+}
+
+.question-block{
+    display:none;
+}
+
+.question-block.active-question{
+    display:block;
+}
 </style>
 </head>
+
 <body>
 
-<div id="quiz-page" class="page">
-<div class="card">
-<h1>Wait.</h1>
-<p class="small">Before you continue...</p>
-<h2 style="margin-top:10px">Are you really Sunday?</h2>
-<p class="small">Let's find out.</p>
+<a class="music-btn"
+target="_blank"
+href="https://youtu.be/Q49pnA4jsp8?si=_nbjbBI0ufuMjVTo">
+♫ love — wave to earth
+</a>
 
-<div class="question">
-<p><b>What's my first nickname for you?</b></p>
-<label><input type="radio" name="q1"> Potato Puff</label>
-<label><input type="radio" name="q1"> Sunday</label>
-<label><input type="radio" name="q1" value="correct"> Biri-biri kecil</label>
-<label><input type="radio" name="q1"> Honeybun</label>
-</div>
+<!-- PAGE 1 -->
 
-<div class="question">
-<p><b>What's your favorite food?</b></p>
-<label><input type="radio" name="q2"> Pizza</label>
-<label><input type="radio" name="q2"> Ramen</label>
-<label><input type="radio" name="q2" value="correct"> Ubi Madu / Ubi Cilembu</label>
-<label><input type="radio" name="q2"> Fried Rice</label>
-</div>
+<section id="intro" class="page active">
 
-<div class="question">
-<p><b>Who's your favorite person?</b></p>
-<label><input type="radio" name="q3"> Your favorite character</label>
-<label><input type="radio" name="q3"> Your pet</label>
-<label><input type="radio" name="q3" value="correct"> Me</label>
-<label><input type="radio" name="q3"> Yourself</label>
-</div>
+<div class="card center fade">
 
-<div class="question">
-<p><b>Where did we first meet?</b></p>
-<label><input type="radio" name="q4"> Roblox</label>
-<label><input type="radio" name="q4"> Instagram</label>
-<label><input type="radio" name="q4"> School</label>
-<label><input type="radio" name="q4" value="correct"> TikTok comments section</label>
-</div>
+<h1 class="typing">
+a tiny place on the internet...
+</h1>
 
-<button onclick="checkAnswers()">Continue</button>
-</div>
-</div>
+<br><br>
 
-<div id="letter-page" class="page">
-<div class="card">
-<img src="ChatGPT Image 6 Jun 2026, 16.20.41.png" alt="photo">
-<h2>Dear, Sunday.</h2>
-<p style="margin-top:20px">
-If there were superpowers In this world, I'd want you to have the power to read minds and see through people's eyes. Because I want you to know how I see the world, my world, which is you. I want you to know that my eyes, which are just like a camera lens, are always recording everything you do. I want you to know how my eyes look at you, how admiration grows in me, and how I constantly fall in love with you. I want you to know through my eyes, you are so meaningful and enchanting. I want you to know that through my eyes, I always capture you, as if my eyes were a polaroid camera and you are the object of my polarold love.<br><br>
-My love, if my eyes were a camera lens, I'm sure I'd already have a stack of photos of you, numbering in the thousands or even billions. I want to tell the whole world that someone as amazing as you exists. I want to Introduce you to the world, along with the thousands of good things about you that could make anyone admire you in a blink. I also want you to know that behind the fears and the moments you feel small, you are a great person who is so wonderful in my eyes. You are never allowed to feel discouraged, because through my lens, I can catch a thousand of your strengths, a thousand types of your kindest, and a thousand things that only you have, things that make you so worthy of being loved.<br><br>
-I want you to be the object of my polaroid love, I want you to always live in the lens of my eyes. I want to keep capturing you and looking at you in admiration. My love, I hope you live a good life so that my lens can be filled even more with your bright like a sunshine smile. My love, don't let anyone else say anything about you, because you have me right here, always caring and paying attention to your every little thing. In my eyes, your actions matter, every little things you like matter, and your every damn feelings matter so much. I want to celebrate every detail about you and keep it forever. My love, please keep live in the polaroid of my love forevermore. <br><br>
-Sincerely, Drew.
+<p>
+made for one person.
 </p>
-<div style="text-align:center">
-<button onclick="showHeartPage()">Continue</button>
-</div>
-</div>
+
+<br>
+
+<h2>
+sunday.
+</h2>
+
+<button onclick="showPage('quiz')">
+enter
+</button>
+
 </div>
 
-<div id="heart-page" class="page">
-<div class="card" style="text-align:center">
-<h1>my heart</h1>
-<h1>is only for u.</h1>
+</section>
+
+<!-- PAGE 2 QUIZ -->
+
+<section id="quiz" class="page">
+
+<div class="card fade">
+
+<h2>
+Wait.
+</h2>
+
+<p>
+Before you continue...
+</p>
+
 <br>
-<p>and if i had to choose again,<br>i'd still find my way back to you.</p>
-<br>
-<p>thank you for existing, sayang.</p>
-<br>
-<a class="music" target="_blank" href="https://youtu.be/Q49pnA4jsp8?si=_nbjbBI0ufuMjVTo">♫ love — wave to earth</a>
+
+<h2>
+Are you really Sunday?
+</h2>
+
+<p>
+Let's find out.
+</p>
+
+<br><br>
+
+<!-- QUESTION 1 -->
+
+<div class="question-block active-question" id="q1">
+
+<h3>
+What's my first nickname for you?
+</h3>
+
+<label class="option">
+<input type="radio" name="q1answer">
+Potato Puff
+</label>
+
+<label class="option">
+<input type="radio" name="q1answer">
+Sunday
+</label>
+
+<label class="option">
+<input type="radio" name="q1answer" value="correct">
+Biri-biri kecil
+</label>
+
+<label class="option">
+<input type="radio" name="q1answer">
+Honeybun
+</label>
+
+<button onclick="nextQuestion(1)">
+next
+</button>
+
 </div>
+
+<!-- QUESTION 2 -->
+
+<div class="question-block" id="q2">
+
+<h3>
+What's your favorite food?
+</h3>
+
+<label class="option">
+<input type="radio" name="q2answer">
+Pizza
+</label>
+
+<label class="option">
+<input type="radio" name="q2answer">
+Ramen
+</label>
+
+<label class="option">
+<input type="radio" name="q2answer" value="correct">
+Ubi Madu / Ubi Cilembu
+</label>
+
+<label class="option">
+<input type="radio" name="q2answer">
+Fried Rice
+</label>
+
+<button onclick="nextQuestion(2)">
+next
+</button>
+
 </div>
+<!-- QUESTION 3 -->
+
+<div class="question-block" id="q3">
+
+<h3>
+Who's your favorite person?
+</h3>
+
+<label class="option">
+<input type="radio" name="q3answer">
+Your favorite character
+</label>
+
+<label class="option">
+<input type="radio" name="q3answer">
+Your pet
+</label>
+
+<label class="option">
+<input type="radio" name="q3answer" value="correct">
+Me
+</label>
+
+<label class="option">
+<input type="radio" name="q3answer">
+Yourself
+</label>
+
+<button onclick="nextQuestion(3)">
+next
+</button>
+
+</div>
+
+<!-- QUESTION 4 -->
+
+<div class="question-block" id="q4">
+
+<h3>
+Where did we first meet?
+</h3>
+
+<label class="option">
+<input type="radio" name="q4answer">
+Roblox
+</label>
+
+<label class="option">
+<input type="radio" name="q4answer">
+Instagram
+</label>
+
+<label class="option">
+<input type="radio" name="q4answer">
+School
+</label>
+
+<label class="option">
+<input type="radio" name="q4answer" value="correct">
+TikTok comments section
+</label>
+
+<button onclick="verifySunday()">
+finish
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PAGE 3 -->
+
+<section id="verified" class="page">
+
+<div class="card center fade">
+
+<h2>
+verifying identity...
+</h2>
+
+<br>
+
+<div id="loadingBar"
+style="
+height:12px;
+background:rgba(255,255,255,.1);
+border-radius:999px;
+overflow:hidden;
+">
+
+<div id="barFill"
+style="
+width:0%;
+height:100%;
+background:#A5D7E8;
+transition:2s;
+">
+</div>
+
+</div>
+
+<br><br>
+
+<div id="verifiedText"
+style="display:none;">
+
+<h2>
+Identity confirmed.
+</h2>
+
+<h1>
+Welcome, Sunday :3
+</h1>
+
+<br>
+
+<p id="daysCounter"></p>
+
+<button onclick="showPage('gallery')">
+continue
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PAGE 4 -->
+
+<section id="gallery" class="page">
+
+<div class="card fade">
+
+<div class="center">
+
+<h1>
+our memories
+</h1>
+
+<p>
+some of my favorite moments.
+</p>
+
+</div>
+
+<br><br>
+
+<div class="gallery">
+
+<img
+src="9066977841_90226220017920_1780067668683.png"
+style="
+width:100%;
+aspect-ratio:16/9;
+object-fit:cover;
+border-radius:18px;
+margin-bottom:20px;
+">
+
+<img
+src="9066977841_90226220017920_1779814671059.png"
+style="
+width:100%;
+aspect-ratio:16/9;
+object-fit:cover;
+border-radius:18px;
+margin-bottom:20px;
+">
+
+<img
+src="9066977841_4491408735_1780408367440.png"
+style="
+width:100%;
+aspect-ratio:16/9;
+object-fit:cover;
+border-radius:18px;
+margin-bottom:20px;
+">
+
+<img
+src="9066977841_87333876992724_1779892008367.png"
+style="
+width:100%;
+aspect-ratio:16/9;
+object-fit:cover;
+border-radius:18px;
+">
+
+</div>
+
+<div class="center">
+
+<button onclick="showPage('letter')">
+continue
+</button>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- PAGE 5 -->
+
+<section id="letter" class="page">
+
+<div class="card fade">
+
+<h1>
+Dear Sunday,
+</h1>
+
+<br><br>
+
+<div id="letterContent">
+
+PASTE YOUR LETTER HERE
+
+</div>
+
+<br><br>
+
+<div class="center">
+
+<button onclick="showPage('heart')">
+one more thing
+</button>
+
+</div>
+
+</div>
+
+</section>
+  
+<!-- PAGE 6 -->
+
+<section id="heart" class="page">
+
+<div class="card center fade">
+
+<h1>
+my heart is only for you.
+</h1>
+
+<br><br>
+
+<p style="
+font-size:1.15rem;
+line-height:2;
+max-width:700px;
+margin:auto;
+">
+
+Among all the people I've met,
+all the places I've wandered through,
+and all the days that quietly passed...
+
+somehow,
+my favorite destination
+became you.
+
+Not because you're perfect.
+
+Not because you always know what to say.
+
+But because being with you feels like
+coming home after a very long journey.
+
+And if there is one thing
+I know for certain—
+
+it's that my heart,
+in every version of tomorrow,
+will always choose you.
+
+</p>
+
+<br><br>
+
+<h2>
+🌊💙
+</h2>
+
+<p>
+Thank you for being here, Sunday.
+</p>
+
+</div>
+
+</section>
 
 <script>
-function checkAnswers(){
-const ok =
-document.querySelector('input[name="q1"]:checked')?.value==="correct" &&
-document.querySelector('input[name="q2"]:checked')?.value==="correct" &&
-document.querySelector('input[name="q3"]:checked')?.value==="correct" &&
-document.querySelector('input[name="q4"]:checked')?.value==="correct";
 
-if(ok){
-alert("Identity confirmed. Welcome, Sunday :3");
-document.getElementById("quiz-page").style.display="none";
-document.getElementById("letter-page").style.display="flex";
-}else{
-alert("Access denied. You're suspiciously not Sunday.");
+function showPage(id){
+
+document.querySelectorAll(".page").forEach(page=>{
+page.classList.remove("active");
+});
+
+document.getElementById(id).classList.add("active");
+
+window.scrollTo({
+top:0,
+behavior:"smooth"
+});
+
 }
+
+function nextQuestion(num){
+
+const selected =
+document.querySelector(
+`input[name="q${num}answer"]:checked`
+);
+
+if(!selected){
+alert("choose an answer first 😠");
+return;
 }
-function showHeartPage(){
-document.getElementById("letter-page").style.display="none";
-document.getElementById("heart-page").style.display="flex";
+
+if(selected.value !== "correct"){
+alert("hmm... are you really Sunday?");
+return;
 }
-for(let i=0;i<25;i++){
-const s=document.createElement('div');
-s.className='star';
-s.innerHTML='✦';
-s.style.left=Math.random()*100+'vw';
-s.style.animationDelay=(Math.random()*12)+'s';
-document.body.appendChild(s);
+
+document
+.getElementById(`q${num}`)
+.classList.remove("active-question");
+
+document
+.getElementById(`q${num+1}`)
+?.classList.add("active-question");
+
 }
+
+function verifySunday(){
+
+const selected =
+document.querySelector(
+`input[name="q4answer"]:checked`
+);
+
+if(!selected){
+alert("choose an answer first 😠");
+return;
+}
+
+if(selected.value !== "correct"){
+alert("identity mismatch.");
+return;
+}
+
+showPage("verified");
+
+setTimeout(()=>{
+document.getElementById("barFill").style.width="100%";
+},200);
+
+setTimeout(()=>{
+
+document.getElementById(
+"verifiedText"
+).style.display="block";
+
+},2300);
+
+}
+
+/* countdown */
+
+const startDate =
+new Date("2026-05-25");
+
+const today =
+new Date();
+
+const difference =
+today - startDate;
+
+const days =
+Math.floor(
+difference /
+(1000*60*60*24)
+);
+
+setTimeout(()=>{
+
+const counter =
+document.getElementById(
+"daysCounter"
+);
+
+if(counter){
+
+counter.innerHTML =
+"We've been collecting memories for <b>"
++ days +
+"</b> days.";
+
+}
+
+},100);
+
+/* ocean particles */
+
+for(let i=0;i<35;i++){
+
+const bubble =
+document.createElement("div");
+
+bubble.className =
+"particle";
+
+bubble.innerHTML =
+["✦","•","°","✧"][
+Math.floor(Math.random()*4)
+];
+
+bubble.style.left =
+Math.random()*100+"vw";
+
+bubble.style.fontSize =
+(10+Math.random()*20)+"px";
+
+bubble.style.animationDuration =
+(12+Math.random()*18)+"s";
+
+bubble.style.animationDelay =
+Math.random()*10+"s";
+
+document.body.appendChild(
+bubble
+);
+
+}
+
 </script>
+
 </body>
 </html>
